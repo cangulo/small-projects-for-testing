@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "31684d08-20ab-439d-a499-0ed22f90b44a",
+		"name": "TaskManager.CreateTask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateTask",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "167cdac1-2daf-4c8f-9167-f4a6b5a1fe99",
+						"exec": [
+							"expectedStatusCode = pm.environment.get(\"expectedResponseCode\");\r",
+							"pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+							"    pm.expect(pm.response.code.toString()).to.be.equal(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							"expectedBody =  pm.environment.get(\"expectedResponseBody\");\r",
+							"pm.test(`Response Body is the one expected`, function () {\r",
+							"    pm.response.to.have.jsonBody(expectedBody.json)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Title\": \"Buy arepas\",\r\n    \"TodoDate\": \"2020-08-01T18:21:17.9247813Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/task/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"task",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

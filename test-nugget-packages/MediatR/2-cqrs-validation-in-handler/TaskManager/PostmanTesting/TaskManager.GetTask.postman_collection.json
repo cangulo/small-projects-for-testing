@@ -1,0 +1,51 @@
+{
+	"info": {
+		"_postman_id": "d77651ad-8a7c-4ee5-b994-349038d5fab9",
+		"name": "TaskManager.GetTask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetTask",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "934c9809-d554-4d22-9c77-e1dccb211547",
+						"exec": [
+							"expectedStatusCode = pm.environment.get(\"expectedResponseCode\");\r",
+							"pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+							"    pm.expect(pm.response.code.toString()).to.be.equal(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							"expectedBody =  pm.environment.get(\"expectedResponseBody\");\r",
+							"pm.test(`Response Body is the one expected`, function () {\r",
+							"    pm.response.to.have.jsonBody(expectedBody.json)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/task/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"task",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
