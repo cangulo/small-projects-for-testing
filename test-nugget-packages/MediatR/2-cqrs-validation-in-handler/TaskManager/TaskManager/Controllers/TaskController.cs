@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using TaskManager.Domain.Operations.CreateTaskCommand;
@@ -16,7 +17,7 @@ namespace TaskManager.API.Controllers
 
         public TaskController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
         }
 
         [HttpGet("{id}")]
