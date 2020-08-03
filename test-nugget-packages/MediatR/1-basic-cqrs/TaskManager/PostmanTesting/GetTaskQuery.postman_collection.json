@@ -1,0 +1,78 @@
+{
+	"info": {
+		"_postman_id": "aa4b1bf0-048b-4d9e-9b87-1f02e340436b",
+		"name": "GetTaskQuery",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetTaskQuery",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7d79cfc0-bfbb-40c5-bf39-971bc81668b7",
+						"exec": [
+							"expectedStatusCode = pm.environment.get(\"expectedResponseCode\");\r",
+							"\r",
+							"pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+							"    pm.expect(pm.response.code.toString()).to.be.equal(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							"expectedBody =  pm.environment.get(\"expectedResponseBody\");\r",
+							"if(expectedBody !== \"\"){\r",
+							"    pm.test(`Response Body is the one expected`, function () {\r",
+							"        var jsonResponse = pm.response.json()\r",
+							"        var expectedJson = JSON.parse(expectedBody)\r",
+							"        pm.expect(jsonResponse).to.be.eql(expectedJson)\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/task/{{taskId}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"task",
+						"{{taskId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3ade39d4-b098-4d4e-a792-225e9c86ab20",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0fac7f89-fa63-4846-84c7-314d3eee9589",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

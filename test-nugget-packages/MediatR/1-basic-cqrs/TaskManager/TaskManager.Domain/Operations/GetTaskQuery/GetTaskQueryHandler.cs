@@ -14,7 +14,7 @@ namespace TaskManager.Domain.Operations.GetTaskQuery
 
         public GetTaskQueryHandler(ITaskRepository taskRepository)
         {
-            _taskRepository = taskRepository ?? throw new NullReferenceException(nameof(taskRepository)); ;
+            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
         }
 
         public async Task<Result<TaskEntity>> Handle(GetTaskQuery request, CancellationToken cancellationToken) => await _taskRepository.GetTaskById(request.TaskId);

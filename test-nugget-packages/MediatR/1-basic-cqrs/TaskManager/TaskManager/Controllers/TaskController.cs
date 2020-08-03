@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using TaskManager.Domain.Operations.CreateTaskCommand;
@@ -16,15 +18,15 @@ namespace TaskManager.API.Controllers
 
         public TaskController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTask(int id)
         {
-            var response = await _mediator.Send(new GetTaskQuery { });
+            var response = await _mediator.Send(new GetTaskQuery { TaskId = id });
             if (response.IsFailed)
-                return BadRequest(response.Errors);
+                return BadRequest(response.Errors.Select(x => x.Message));
             return Ok(response.Value);
         }
 
@@ -33,7 +35,7 @@ namespace TaskManager.API.Controllers
         {
             var response = await _mediator.Send(new CreateTaskCommand { Task = task });
             if (response.IsFailed)
-                return BadRequest(response.Errors);
+                return BadRequest(response.Errors.Select(x => x.Message));
             return StatusCode((int)HttpStatusCode.Created);
         }
     }

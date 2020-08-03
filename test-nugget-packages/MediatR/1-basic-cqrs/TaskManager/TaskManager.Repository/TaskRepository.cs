@@ -20,7 +20,7 @@ namespace TaskManager.Repository
                             {
                                 TaskId = 1,
                                 Title = "Remember the milk",
-                                TodoDate = DateTime.UtcNow
+                                TodoDate = new DateTime(2020, 08, 04)
                             }));
         }
     }

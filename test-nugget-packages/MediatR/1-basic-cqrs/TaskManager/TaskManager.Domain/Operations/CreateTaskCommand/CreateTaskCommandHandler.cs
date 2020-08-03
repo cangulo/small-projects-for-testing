@@ -13,7 +13,7 @@ namespace TaskManager.Domain.Operations.CreateTaskCommand
 
         public CreateTaskCommandHandler(ITaskRepository taskRepository)
         {
-            _taskRepository = taskRepository ?? throw new NullReferenceException(nameof(taskRepository));
+            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
         }
 
         public async Task<Result> Handle(CreateTaskCommand request, CancellationToken cancellationToken) => await _taskRepository.CreateTask(request.Task);
