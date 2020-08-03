@@ -1,5 +1,7 @@
 ﻿using FluentResults;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TaskManager.Domain.Operations.CreateTaskCommand
 {
@@ -8,17 +10,17 @@ namespace TaskManager.Domain.Operations.CreateTaskCommand
         private readonly int MaxTitleLength = 200;
         public Result Validate(CreateTaskCommand request)
         {
-            var result = Result.Ok();
+            var errors = new List<string>();
             if (request.Task.TodoDate < DateTime.UtcNow)
-                result = Result.Fail("Todo Date should be in the future");
+                errors.Add("Todo Date should be in the future");
 
-            if (string.IsNullOrEmpty(request.Task.Title) || )
-                result = Result.Merge(result, Result.Fail("Title should not be empty"));
+            if (string.IsNullOrEmpty(request.Task.Title))
+                errors.Add("Title should not be empty");
 
             if (request.Task.Title.Length > MaxTitleLength)
-                result = Result.Merge(result, Result.Fail($"Title should be shorter than ${MaxTitleLength}"));
+                errors.Add($"Title should be shorter than {MaxTitleLength}");
 
-            return result;
+            return errors.Count == 0 ? Result.Ok() : Result.Merge(errors.Select(x => Result.Fail(x)).ToArray());
         }
     }
 }
