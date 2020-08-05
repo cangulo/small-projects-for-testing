@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "46245453-af20-4c4d-b03a-4edc530f2419",
+		"name": "CreateTask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateTask",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "54846026-2183-43cd-97d7-12800dc962f6",
+						"exec": [
+							"expectedStatusCode = pm.environment.get(\"expectedResponseCode\");\r",
+							"\r",
+							"pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+							"    pm.expect(pm.response.code.toString()).to.be.equal(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							"expectedBody =  pm.environment.get(\"expectedResponseBody\");\r",
+							"if(expectedBody !== \"\"){\r",
+							"    pm.test(`Response Body is the one expected`, function () {\r",
+							"        var jsonResponse = pm.response.json()\r",
+							"        var expectedJson = JSON.parse(expectedBody)\r",
+							"        pm.expect(jsonResponse).to.be.eql(expectedJson)\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fbd6f9eb-cbb3-4727-8590-57e9dcd6edb7",
+						"exec": [
+							"tododate_inthefuture = pm.environment.get(\"task-tododate-inthefuture\");\r",
+							"tododate_inthefuture = JSON.parse(tododate_inthefuture)\r",
+							"\r",
+							"const dateNow= new Date();\r",
+							"\r",
+							"if (tododate_inthefuture) {\r",
+							"    dateNow.setDate(dateNow.getDate() + 1);\r",
+							"}else{\r",
+							"    dateNow.setDate(dateNow.getDate() -1);\r",
+							"}\r",
+							"\r",
+							"var task_tododate = dateNow.toISOString();\r",
+							"pm.environment.set(\"task-tododate\", task_tododate);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Title\": \"{{task-title}}\",\r\n    \"TodoDate\": \"{{task-tododate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/task/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"task",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "811e96af-c176-4713-aa76-af11b63e8a2f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "5dfc9415-fa04-450f-8975-7c1407c79c0b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
