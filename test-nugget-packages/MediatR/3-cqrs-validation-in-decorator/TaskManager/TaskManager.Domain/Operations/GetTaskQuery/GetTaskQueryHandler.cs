@@ -19,13 +19,6 @@ namespace TaskManager.Domain.Operations.GetTaskQuery
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
-        public async Task<Result<TaskEntity>> Handle(GetTaskQuery request, CancellationToken cancellationToken)
-        {
-            var validationResult = _validator.Validate(request);
-            if (validationResult.IsFailed)
-                return validationResult.ToResult<TaskEntity>();
-
-            return await _taskRepository.GetTaskById(request.TaskId);
-        }
+        public async Task<Result<TaskEntity>> Handle(GetTaskQuery request, CancellationToken cancellationToken) => await _taskRepository.GetTaskById(request.TaskId);
     }
 }
