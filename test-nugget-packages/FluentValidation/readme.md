@@ -19,5 +19,9 @@
 
 # 4-validation-domain-decorator     
 
-* The previous validators are now injected in the next generic decorator which is the enter point for the validations for all request
+The previous validators are now injected in the next generic decorator which is the enter point for the validations for all request
   * [RequestValidatorDecorator](4-validation-domain-decorator/TaskManager/TaskManager.Domain/Operations/RequestValidatorDecorator.cs)
+
+You can check how the RequestHandlers now doesn't validate the request, instead they only focus on process the request:
+  * [CreateTaskCommandHandler](./4-validation-domain-decorator/TaskManager/TaskManager.Domain/Operations/CreateTaskCommand/CreateTaskCommandHandler.cs)
+  * [GetTaskQueryHandler](./4-validation-domain-decorator/TaskManager/TaskManager.Domain/Operations/GetTaskQuery/GetTaskQueryHandler.cs)
