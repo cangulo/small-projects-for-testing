@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using TaskManager.Domain.Operations;
 using TaskManager.Domain.Operations.CreateTaskCommand;
 using TaskManager.Domain.Operations.GetTaskQuery;
 

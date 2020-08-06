@@ -1,5 +1,4 @@
-﻿
-using Autofac;
+﻿using Autofac;
 using MediatR;
 using TaskManager.Domain.Operations;
 
