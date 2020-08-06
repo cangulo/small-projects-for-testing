@@ -88,4 +88,5 @@ In order to solve that I create an extension method to cast
 * As the CQRS is used, if we want to have a decorator we should be careful about what we return.
 
 # 4-cqrs-mapping-dto-in-controller 
+
 # 5-cqrs-mapping-in-decorator      
