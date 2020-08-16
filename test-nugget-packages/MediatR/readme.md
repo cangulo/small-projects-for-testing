@@ -21,11 +21,11 @@ Please note all the data is mocked. There is no database linked, check the [Task
 
 All the next projects are developed incrementally, each one introduce an improvement to the previous one. 
 
-| Folder                         | Main Subject                               | Link Folder                                           |
-| ------------------------------ | ------------------------------------------ | ----------------------------------------------------- |
-| 1-basic-cqrs                   | Basic CQRS project using MediatR           | [Project](./1-basic-cqrs/readme.md)                   |
-| 2-cqrs-validation-in-handler   | Include a validation layer in the handlers | [Project](./2-cqrs-validation-in-handler/readme.md)   |
-| 3-cqrs-validation-in-decorator | Improve the validation layer               | [Project](./3-cqrs-validation-in-decorator/readme.md) |
+| Folder                         | Main Subject                               | Link Folder                                  |
+| ------------------------------ | ------------------------------------------ | -------------------------------------------- |
+| 1-basic-cqrs                   | Basic CQRS project using MediatR           | [Project](./1-basic-cqrs/)                   |
+| 2-cqrs-validation-in-handler   | Include a validation layer in the handlers | [Project](./2-cqrs-validation-in-handler/)   |
+| 3-cqrs-validation-in-decorator | Improve the validation layer               | [Project](./3-cqrs-validation-in-decorator/) |
 
 <!-- # 4-cqrs-mapping-dto-in-controller  -->
 
