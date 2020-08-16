@@ -31,7 +31,7 @@ All the next projects are developed incrementally, each one introduce an improve
 
 This is the basic project, no validation for the request is implemented and all the dependency injection used the default .NET Core features.
 
-# 2-cqrs-validation-in-handler     
+Please note all the data is mocked. There is no database linked, check the [TaskRepository.cs](./1-basic-cqrs/TaskManager/TaskManager.Repository/TaskRepository.cs). It is also important to mention that the [FluentResult](https://github.com/altmann/FluentResults) nugget package is used to encapsulate the results.
 
 In this project simple validations for the queries and commands has been added. Next are the steps done:
 
