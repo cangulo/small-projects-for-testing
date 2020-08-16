@@ -4,14 +4,12 @@ In this project simple validations for the queries and commands has been added. 
 
 1. Define a contract for all the validators in the next interface:
 
-<!-- START CODE --Interface IValidator --PATH ./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/IValidator.cs -->
 ```csharp
 public interface IValidator<in TRequest>
 {
     Result Validate(TRequest request);
 }
 ```
-<!-- END CODE -->
 
 <p align="center">
     <a href="./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/IValidator.cs"><i>IValidator.cs</i></a>
@@ -67,7 +65,7 @@ public class GetTaskQueryValidator : IValidator<GetTaskQuery>
     <a href="./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/CreateTaskCommand/CreateTaskCommandValidator.cs"><i>CreateTaskCommandValidator.cs</i></a>
 </p>
 
-1. Register the validators in the default .NET Core container:
+3. Register the validators in the default .NET Core container:
 
 ```csharp
 public static class DomainModule
@@ -85,4 +83,58 @@ public static class DomainModule
 </p>
 
 
-4. Inject them in the handlers:
+4. Inject them in the handlers constructors and use them in the method `Handle` :
+
+```csharp
+public class GetTaskQueryHandler : IRequestHandler<GetTaskQuery, Result<TaskEntity>>
+{
+    private readonly ITaskRepository _taskRepository;
+    private readonly IValidator<GetTaskQuery> _validator;
+
+    public GetTaskQueryHandler(ITaskRepository taskRepository, IValidator<GetTaskQuery> validator)
+    {
+        _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
+        // Validator injected
+        _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+    }
+
+    public async Task<Result<TaskEntity>> Handle(GetTaskQuery request, CancellationToken cancellationToken)
+    {
+        // Validator execution, please note the validator result type, as well as, the method result
+        var validationResult = _validator.Validate(request);
+        if (validationResult.IsFailed)
+            return validationResult.ToResult<TaskEntity>();
+
+        return await _taskRepository.GetTaskById(request.TaskId);
+    }
+}
+```
+
+```csharp
+public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Result>
+{
+    private readonly ITaskRepository _taskRepository;
+    private readonly IValidator<CreateTaskCommand> _validator;
+
+    public CreateTaskCommandHandler(ITaskRepository taskRepository, IValidator<CreateTaskCommand> validator)
+    {
+        _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
+        // Validator injected
+        _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+    }
+
+    public async Task<Result> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
+    {
+        // Validator execution, please note the validator result type, as well as, the method result
+        var validationResult = _validator.Validate(request);
+        if (validationResult.IsFailed)
+            return validationResult;
+
+        return await _taskRepository.CreateTask(request.Task);
+    }
+}
+```
+
+## Remarks
+
+Please note 
