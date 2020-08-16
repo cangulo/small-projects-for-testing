@@ -1,8 +1,8 @@
 # 2-cqrs-validation-in-handler     
 
-In this project simple validations for the queries and commands has been added. Next are the steps done:
+In this project, I have introduced some validations in the Task Manager API. Next are the steps done:
 
-1. Define a contract for all the validators in the next interface:
+1. To define a contract for all the validators in the next interface:
 
 ```csharp
 public interface IValidator<in TRequest>
@@ -15,9 +15,9 @@ public interface IValidator<in TRequest>
     <a href="./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/IValidator.cs"><i>IValidator.cs</i></a>
 </p>
 
-Please note all the validators will return a `Result` type, this is from the FluentResult package mentioned before.
+Please note all the validators will return a `Result` type for the Validate method, this is from the FluentResult package.
 
-2. Create the implementations for the request we handle: 
+2. Then, to create a validator class for each request, implementing the IValidator interface : 
 
 * GetTaskQueryValidator
 
@@ -83,7 +83,7 @@ public static class DomainModule
 </p>
 
 
-4. Inject them in the handlers constructors and use them in the method `Handle` :
+4. Inject the validators in the handlers constructors and use them in the method `Handle` :
 
 ```csharp
 public class GetTaskQueryHandler : IRequestHandler<GetTaskQuery, Result<TaskEntity>>
@@ -100,7 +100,7 @@ public class GetTaskQueryHandler : IRequestHandler<GetTaskQuery, Result<TaskEnti
 
     public async Task<Result<TaskEntity>> Handle(GetTaskQuery request, CancellationToken cancellationToken)
     {
-        // Validator execution, please note the validator result type, as well as, the method result
+        // Validator execution, please note the cast operation if the validation result isFailed
         var validationResult = _validator.Validate(request);
         if (validationResult.IsFailed)
             return validationResult.ToResult<TaskEntity>();
@@ -135,6 +135,4 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 }
 ```
 
-## Remarks
-
-Please note 
+Please note the cast operation done when the validation fails, in the handle method of the GetTaskQueryHandler class. This one is needed because the result type of this handler is `Result<TaskEntity>` but the validator returns `Result`, without any type attached. FluentAssertions allows us to cast using the `ToResult<TType>` method only if the result is failed (it contains errors) and no object is attached.
