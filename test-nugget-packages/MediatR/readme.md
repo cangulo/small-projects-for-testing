@@ -1,29 +1,42 @@
+# Nugget packaged tested:
 
-| Folder                           | Main Subject                      | Link Folder                                               |
-| -------------------------------- | --------------------------------- | --------------------------------------------------------- |
-| 1-basic-cqrs                     | Basic CQRS project using IMediatR | [Project](./1-basic-cqrs/TaskManager/TaskManager)         |
-| 2-cqrs-validation-in-handler     | B2                                | [Project](./2-cqrs-validation-in-handler/TaskManager)     |
-| 3-cqrs-validation-in-decorator   | B3                                | [Project](./3-cqrs-validation-in-decorator/TaskManager)   |
-| 4-cqrs-mapping-dto-in-controller | B3                                | [Project](./4-cqrs-mapping-dto-in-controller/TaskManager) |
-| 5-cqrs-mapping-in-decorator      | B3                                | [Project](./5-cqrs-mapping-in-decorator/TaskManager)      |
+[MediatR](https://github.com/jbogard/MediatR/wiki)
 
+# What it is used for?
+
+Library to make it easy to develop a solution following the CQRS (Command Query Responsibility Segregation)
+
+# Basic Projects
+
+The basic project is a Task Manager API with the next two features:
+
+| Feature          | Endpoint        | HTTP Method | Query / Command class                                                                                                | Handler                                                                                                                            |
+| ---------------- | --------------- | ----------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Get a Task by Id | `api/task/{id}` | GET         | [GetTaskQuery](./1-basic-cqrs/TaskManager/TaskManager.Domain/Operations/GetTaskQuery/GetTaskQuery.cs)                | [GetTaskQueryHandler](./1-basic-cqrs/TaskManager/TaskManager.Domain/Operations/GetTaskQuery/GetTaskQueryHandler.cs)                |
+| Create a Task    | `api/task`      | POST        | [CreateTaskCommand](./1-basic-cqrs/TaskManager/TaskManager.Domain/Operations/CreateTaskCommand/CreateTaskCommand.cs) | [CreateTaskCommandHandler](./1-basic-cqrs/TaskManager/TaskManager.Domain/Operations/CreateTaskCommand/CreateTaskCommandHandler.cs) |
+
+Please note all the data is mocked. There is no database linked, check the [TaskRepository.cs](./1-basic-cqrs/TaskManager/TaskManager.Repository/TaskRepository.cs). It is also important to mention that the [FluentResult](https://github.com/altmann/FluentResults) nugget package is used to encapsulate the results.
+
+# Versions
+
+All the next projects are developed incrementally, each one introduce an improvement to the previous one. 
+
+| Folder                         | Main Subject                               | Link Folder                                             |
+| ------------------------------ | ------------------------------------------ | ------------------------------------------------------- |
+| 1-basic-cqrs                   | Basic CQRS project using MediatR           | [Project](./1-basic-cqrs/TaskManager/TaskManager)       |
+| 2-cqrs-validation-in-handler   | Include a validation layer in the handlers | [Project](./2-cqrs-validation-in-handler/TaskManager)   |
+| 3-cqrs-validation-in-decorator | Improve the validation layer               | [Project](./3-cqrs-validation-in-decorator/TaskManager) |
 
 # 1-basic-cqrs
 
-Use directly the [MediatR](https://github.com/jbogard/MediatR) nugget package to implement the CQRS. Only one query and one command are coded. This will be the basic project to be improved in the next folders. It is important to remark I use the [FluentResult](https://github.com/altmann/FluentResults) nugget package to encapsulate results.
-
-I created only the next requests and handlers:
-
-* [GetTaskQuery](./1-basic-cqrs/TaskManager/TaskManager.Domain/Operations/GetTaskQuery/GetTaskQuery.cs)
-  * Handler: [GetTaskQueryHandler](./1-basic-cqrs/TaskManager/TaskManager.Domain/Operations/GetTaskQuery/GetTaskQueryHandler.cs)
-* [CreateTaskCommand](./1-basic-cqrs/TaskManager/TaskManager.Domain/Operations/CreateTaskCommand/CreateTaskCommand.cs)
-  * Handler: [CreateTaskCommandHandler](./1-basic-cqrs/TaskManager/TaskManager.Domain/Operations/CreateTaskCommand/CreateTaskCommandHandler.cs)
+This is the basic project, no validation for the request is implemented and all the dependency injection used the default .NET Core features.
 
 # 2-cqrs-validation-in-handler     
 
-Added validations for the queries and commands. 
+In this project simple validations for the queries and commands has been added. Next are the steps done:
 
-* Created the next interface for the validations:
+1. Define a contract for all the validators in the next interface:
+
 <!-- START CODE --Interface IValidator --PATH ./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/IValidator.cs -->
 ```csharp
 public interface IValidator<in TRequest>
@@ -34,16 +47,79 @@ public interface IValidator<in TRequest>
 <!-- END CODE -->
 
 <p align="center">
-    <a href="2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/IValidator.cs"><i>IValidator</i></a>
+    <a href="./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/IValidator.cs"><i>IValidator.cs</i></a>
 </p>
 
-Please note the `Result` type returned is from the FluentResult package.
+Please note all the validators will return a `Result` type, this is from the FluentResult package mentioned before.
 
-* Created the next validators
-    * [GetTaskQueryValidator](./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/GetTaskQuery/GetTaskQueryValidator.cs)
-    * [CreateTaskCommandValidator](./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/CreateTaskCommand/CreateTaskCommandValidator.cs)
+2. Create the implementations for the request we handle: 
 
-* The validators are injected using .NET Core default DI. Check the [DomainModule](./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/DomainModule.cs) file for
+* GetTaskQueryValidator
+
+```csharp
+public class GetTaskQueryValidator : IValidator<GetTaskQuery>
+{
+    public Result Validate(GetTaskQuery request)
+    {
+        if (request.TaskId < 1)
+            return Result.Fail("TaskId should be greater than 0");
+
+        return Result.Ok();
+    }
+}
+```
+
+<p align="center">
+    <a href="./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/GetTaskQuery/GetTaskQueryValidator.cs"><i>GetTaskQueryValidator.cs</i></a>
+</p>
+
+* CreateTaskCommandValidator
+
+```csharp
+    public class CreateTaskCommandValidator : IValidator<CreateTaskCommand>
+    {
+        private readonly int MaxTitleLength = 200;
+        public Result Validate(CreateTaskCommand request)
+        {
+            var errors = new List<string>();
+            if (request.Task.TodoDate < DateTime.UtcNow)
+                errors.Add("Todo Date should be in the future");
+
+            if (string.IsNullOrEmpty(request.Task.Title))
+                errors.Add("Title should not be empty");
+
+            if (request.Task.Title.Length > MaxTitleLength)
+                errors.Add($"Title should be shorter than {MaxTitleLength}");
+
+            return errors.Count == 0 ? Result.Ok() : Result.Merge(errors.Select(x => Result.Fail(x)).ToArray());
+        }
+    }
+```
+
+<p align="center">
+    <a href="./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/Operations/CreateTaskCommand/CreateTaskCommandValidator.cs"><i>CreateTaskCommandValidator.cs</i></a>
+</p>
+
+1. Register the validators in the default .NET Core container:
+
+```csharp
+public static class DomainModule
+{
+    public static void AddMediatRClasses(this IServiceCollection services)
+    {
+        services.AddMediatR(typeof(DomainModule));
+        services.AddTransient<IValidator<CreateTaskCommand>, CreateTaskCommandValidator>();
+        services.AddTransient<IValidator<GetTaskQuery>, GetTaskQueryValidator>();
+    }
+}
+```
+<p align="center">
+    <a href="./2-cqrs-validation-in-handler/TaskManager/TaskManager.Domain/DomainModule.cs"><i>DomainModule.cs</i></a>
+</p>
+
+
+4. Inject them in the handlers:
+
 
 # 3-cqrs-validation-in-decorator   
 
@@ -87,6 +163,6 @@ In order to solve that I create an extension method to cast
 * The decorator is injected using [Autofac](https://autofaccn.readthedocs.io/en/latest/integration/aspnetcore.html)
 * As the CQRS is used, if we want to have a decorator we should be careful about what we return.
 
-# 4-cqrs-mapping-dto-in-controller 
+<!-- # 4-cqrs-mapping-dto-in-controller  -->
 
-# 5-cqrs-mapping-in-decorator      
+<!-- # 5-cqrs-mapping-in-decorator       -->
