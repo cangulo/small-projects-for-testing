@@ -6,7 +6,7 @@
 
 Library to make it easy to develop a solution following the CQRS (Command Query Responsibility Segregation)
 
-# Basic Projects
+# Basic Project
 
 The basic project is a Task Manager API with the next two features:
 

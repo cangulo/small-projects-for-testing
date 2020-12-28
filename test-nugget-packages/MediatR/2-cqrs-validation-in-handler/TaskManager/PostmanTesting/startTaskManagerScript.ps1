@@ -1,0 +1,1 @@
+dotnet run --project  C:\Users\carlo\source\repos\small-projects-for-testing\test-nugget-packages\MediatR\2-cqrs-validation-in-handler\TaskManager\TaskManager.API\TaskManager.API.csproj
