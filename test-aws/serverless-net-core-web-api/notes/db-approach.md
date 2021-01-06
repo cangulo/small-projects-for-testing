@@ -1,9 +1,13 @@
 # TODO:
 
-1. Think about deploy this to a lambda which will be called when a new release is deployed
+
+1. Call the Domain directly from a Lambda
+2. Get the connection string as secur parameter 
+
+3. Think about deploy this to a lambda which will be called when a new release is deployed
    1. CI: How to deploy a console application to lambda
-2. Think about transactional execution for MySQL
-3. Roll back
+4. Think about transactional execution for MySQL
+5. Roll back
 
 # Scripts Notes
 1. Each script should be IdemPotent

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Console", "01 - Console", "{4989AC3F-284E-4D79-BB90-ABB9E98928CD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Clients", "01 - Clients", "{4989AC3F-284E-4D79-BB90-ABB9E98928CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Domain", "02 - Domain", "{B612806D-C5B4-4636-9498-73D4A4CC00DB}"
 EndProject
@@ -19,7 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{B34F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Domain", "02 - Domain", "{80F4D28C-1538-4943-8BA8-6B52C314240D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cangulo.DbMigrationsHandler.UT", "cangulo.DbMigrationsHandler.UT\cangulo.DbMigrationsHandler.UT.csproj", "{0BE102DC-4CA7-40E8-9FFF-336A63A5F503}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.DbMigrationsHandler.UT", "cangulo.DbMigrationsHandler.UT\cangulo.DbMigrationsHandler.UT.csproj", "{0BE102DC-4CA7-40E8-9FFF-336A63A5F503}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseMigrationsHandler.Lambda", "DatabaseMigrationsHandler.Lambda\DatabaseMigrationsHandler.Lambda.csproj", "{7C2FF143-C6C1-427D-9E2A-0AB919272E17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseMigrationsHandler.Lambda.Tests", "DatabaseMigrationsHandler.Lambda.Tests\DatabaseMigrationsHandler.Lambda.Tests.csproj", "{9459D009-16F2-499A-8475-4573D3D9C835}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +47,14 @@ Global
 		{0BE102DC-4CA7-40E8-9FFF-336A63A5F503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BE102DC-4CA7-40E8-9FFF-336A63A5F503}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BE102DC-4CA7-40E8-9FFF-336A63A5F503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C2FF143-C6C1-427D-9E2A-0AB919272E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C2FF143-C6C1-427D-9E2A-0AB919272E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C2FF143-C6C1-427D-9E2A-0AB919272E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C2FF143-C6C1-427D-9E2A-0AB919272E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9459D009-16F2-499A-8475-4573D3D9C835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9459D009-16F2-499A-8475-4573D3D9C835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9459D009-16F2-499A-8475-4573D3D9C835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9459D009-16F2-499A-8475-4573D3D9C835}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +65,8 @@ Global
 		{C3929F39-4F1C-49F6-BA46-0FB1028D2873} = {DE85B393-5240-42A1-9CA0-966E7EB59987}
 		{80F4D28C-1538-4943-8BA8-6B52C314240D} = {B34FA9A2-320F-491A-9798-2A0915088C52}
 		{0BE102DC-4CA7-40E8-9FFF-336A63A5F503} = {80F4D28C-1538-4943-8BA8-6B52C314240D}
+		{7C2FF143-C6C1-427D-9E2A-0AB919272E17} = {4989AC3F-284E-4D79-BB90-ABB9E98928CD}
+		{9459D009-16F2-499A-8475-4573D3D9C835} = {4989AC3F-284E-4D79-BB90-ABB9E98928CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {641CE559-FE79-4A2E-8398-EFA595A64540}

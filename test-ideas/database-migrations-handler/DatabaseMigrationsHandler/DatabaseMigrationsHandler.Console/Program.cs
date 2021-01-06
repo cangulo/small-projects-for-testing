@@ -24,7 +24,6 @@ namespace DatabaseMigrationsHandler.Console
         {
             var services = new ServiceCollection();
 
-            // TODO: Get this parameters from CLI arguments
             var appSettings = new MigrationSettings
             {
                 ConnectionString = ConnectionString,
