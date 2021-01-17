@@ -21,7 +21,7 @@ namespace cangulo.DbMigrationsHandler
         public Task UpdateDb()
         {
             _logger.LogInformation("STARTING MIGRATION");
-            
+
             var connectionString = _migrationSettings.ConnectionString;
 
             EnsureDatabase.For.MySqlDatabase(connectionString);

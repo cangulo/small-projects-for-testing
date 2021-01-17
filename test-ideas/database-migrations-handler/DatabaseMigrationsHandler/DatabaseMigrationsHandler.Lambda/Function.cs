@@ -1,16 +1,14 @@
+using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
+using cangulo.DbMigrationsHandler;
+using cangulo.DbMigrationsHandler.Models;
+using cangulo.DbMigrationsHandler.Scripts;
+using DatabaseMigrationsHandler.Lambda.Logger;
+using DatabaseMigrationsHandler.Lambda.Models;
 using System.Collections.Generic;
 using System.Net;
-
-using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-using System.Text.Json.Serialization;
-using DatabaseMigrationsHandler.Lambda.Models;
-using cangulo.DbMigrationsHandler.Models;
-using System.Text.RegularExpressions;
 using System.Reflection;
-using cangulo.DbMigrationsHandler.Scripts;
-using cangulo.DbMigrationsHandler;
-using DatabaseMigrationsHandler.Lambda.Logger;
+using System.Text.RegularExpressions;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -25,7 +23,6 @@ namespace DatabaseMigrationsHandler.Lambda
         public Functions()
         {
         }
-
 
         /// <summary>
         /// A Lambda function to respond to HTTP Post methods from API Gateway

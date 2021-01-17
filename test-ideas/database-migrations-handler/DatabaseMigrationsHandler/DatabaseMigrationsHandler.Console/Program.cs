@@ -20,6 +20,7 @@ namespace DatabaseMigrationsHandler.Console
         public string ConnectionString { get; }
 
         public static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
+
         private async Task OnExecute()
         {
             var services = new ServiceCollection();
@@ -44,6 +45,7 @@ namespace DatabaseMigrationsHandler.Console
             var updater = serviceProvider.GetService<IDbUpdatesHandler>();
             await updater.UpdateDb();
         }
+
         private static void ConfigureServices(ServiceCollection services, MigrationSettings appSettings)
         {
             services

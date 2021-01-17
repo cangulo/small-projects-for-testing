@@ -1,15 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Xunit;
-using Amazon.Lambda.Core;
-using Amazon.Lambda.TestUtilities;
 using Amazon.Lambda.APIGatewayEvents;
-
-using DatabaseMigrationsHandler.Lambda;
+using Amazon.Lambda.TestUtilities;
 using DatabaseMigrationsHandler.Lambda.Models;
+using Xunit;
 
 namespace DatabaseMigrationsHandler.Lambda.Tests
 {
@@ -27,7 +19,6 @@ namespace DatabaseMigrationsHandler.Lambda.Tests
             APIGatewayProxyResponse response;
 
             Functions functions = new Functions();
-
 
             request = new MigrationRequest();
             context = new TestLambdaContext();
